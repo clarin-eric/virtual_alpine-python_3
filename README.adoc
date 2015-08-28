@@ -1,13 +1,43 @@
-== Requirements
+=== Suggested requirements
 
-* https://packer.io[Packer].
-* https://www.docker.com/[Docker].
+* The `realpath` command-line utility, e.g. the https://www.gnu.org/software/coreutils/manual/html_node/realpath-invocation.html[GNU coreutils one].
+* The `tac` command-line utility, also offered by GNU coreutils.
 
-== To export container image to `images/latest.tar`
+== To build
 
-* Clone this repository and `cd` to it.
+* To build this Docker container image up from all images it depends on, issue once per shell session:
 +
 [source,Sh]
 ----
-packer build -except='docker_plus_import' 'packer.json'
+build_all() {
+    set -e
+    for packer_file in $(find . $(git submodule --quiet foreach --recursive 'pwd') -maxdepth '1' -type 'f' -name 'packer.json' | tac)
+    do
+        set -x
+        packer build "${packer_file}"
+        set +x
+    done
+    set +e
+}
++
+* From then on you may issue (as long as your current working directory mentioned in the first steps is still correct) `build_all ;` to start the build.
+----
+
+== To run
+
+* First make sure your current working directory is the root directory of your local copy of this repository, and that the previously described build process has completed successfully.
+* Next, if it hasn't been imported yet, import the Docker container image. E.g. issue:
++
+[source,Sh]
+----
+docker import - 'docker.clarin.eu/alpine-python_3:latest' < 'images/latest.tar'
+----
+
+=== ... interactively
+
+Issue:
++
+[source,Sh]
+----
+docker run -v $(realpath resources/pyff_config/)':/srv/pyff_config/' -i -t --entrypoint='/bin/sh' 'docker.clarin.eu/alpine-python_3'
 ----
