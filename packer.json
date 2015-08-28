@@ -24,7 +24,7 @@
     "provisioners": [
         {
             "scripts": [
-                "provision.sh"
+                "{{template_dir}}/provision.sh"
             ],
             "type": "shell"
         }
