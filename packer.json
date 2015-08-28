@@ -12,28 +12,13 @@
             ],
             "pull": false,
             "type": "docker"
-        },
-        {
-            "export_path": "{{template_dir}}/images/latest.tar",
-            "image": "docker.clarin.eu/alpine:latest",
-            "run_command": [
-                "-d",
-                "-i",
-                "-t",
-                "{{.Image}}",
-                "/bin/sh"
-            ],
-            "pull": false,
-            "type": "docker",
-            "name": "docker_plus_import"
         }
     ],
     "post-processors": [
         {
             "repository": "docker.clarin.eu/alpine-python_3",
             "tag": "latest",
-            "type": "docker-import",
-            "only": ["docker_plus_import"]
+            "type": "docker-import"
         }
     ],
     "provisioners": [
