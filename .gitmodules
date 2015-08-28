@@ -1,0 +1,4 @@
+[submodule "resources/virtual_alpine"]
+	path = resources/virtual_alpine
+	url = https://github.com/clarin-eric/virtual_alpine
+	branch = master
