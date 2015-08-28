@@ -2,3 +2,12 @@
 
 * https://packer.io[Packer].
 * https://www.docker.com/[Docker].
+
+== To export container image to `images/latest.tar`
+
+* Clone this repository and `cd` to it.
++
+[source,Sh]
+----
+packer build -except='docker_plus_import' 'packer.json'
+----
