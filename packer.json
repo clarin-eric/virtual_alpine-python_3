@@ -23,6 +23,7 @@
                 "{{.Image}}",
                 "/bin/sh"
             ],
+            "pull": false,
             "type": "docker",
             "name": "docker_plus_import"
         }
